@@ -1,5 +1,5 @@
 /**
- * PTS Super HTML Next - Browser Runtime Bootstrap
+ * pTS Super HTML - Browser Runtime Bootstrap
  * Self-contained client-side loader for Cocos Creator 3.8.8 single-file playable ads.
  */
 
@@ -24,9 +24,19 @@ declare global {
         __pts_meta?: MetaInfo;
         __pts_payload?: string;
         __res: Record<string, VirtualFile>;
+        pTS_urls?: { ios: string; android: string };
+        pTS_html?: any;
+        pTS_log: (msg: any, ...args: any[]) => void;
+        pTS_open: (url?: string) => void;
+        pTS_get_url: (url?: string) => string;
+        pTS_boot_engine: () => void;
+        pTS_check_channel: (c: any) => boolean;
+        pTS_reg_search: (regex: RegExp) => string;
+        pTS_eval: (path: string) => void;
         super_html?: any;
         super_log: (msg: any, ...args: any[]) => void;
         super_open: (url?: string) => void;
+        super_get_url?: (url?: string) => string;
         super_boot_engine: () => void;
         super_check_channel: (c: any) => boolean;
         super_reg_search: (regex: RegExp) => string;
@@ -177,54 +187,100 @@ function getVirtualFile(rawUrl: string): VirtualFile | null {
     return null;
 }
 
+function isIos(): boolean {
+    const ua = (typeof navigator !== 'undefined' && (navigator.userAgent || navigator.vendor)) || '';
+    const platform = (typeof navigator !== 'undefined' && navigator.platform) || '';
+    return /iPad|iPhone|iPod/.test(ua) || (/MacIntel/.test(platform) && typeof navigator !== 'undefined' && (navigator as any).maxTouchPoints > 1);
+}
+
 // Main bootstrap routine
 export async function initRuntime(): Promise<void> {
-    window.super_log = function(msg: any, ...args: any[]) {
-        console.log('[pts-super-html] ' + msg, ...args);
+    window.pTS_log = function(msg: any, ...args: any[]) {
+        console.log('[pTS-super-html] ' + msg, ...args);
     };
+    window.super_log = window.pTS_log;
 
-    window.super_open = function(url?: string) {
-        const targetUrl = url || (window.super_html && (window.super_html.appstore_url || window.super_html.google_play_url)) || '';
-        window.super_log('Opening CTA URL: ' + targetUrl);
+    window.pTS_get_url = function(url?: string): string {
+        if (url && typeof url === 'string' && url.trim().length > 0) return url.trim();
+        const urls = window.pTS_urls || { ios: '', android: '' };
+        const htmlObj = (window as any).pTS_html || (window as any).super_html || {};
+        const iosUrl = urls.ios || htmlObj.appstore_url || htmlObj.ios_url || '';
+        const androidUrl = urls.android || htmlObj.google_play_url || htmlObj.android_url || '';
+
+        const resolved = isIos() ? (iosUrl || androidUrl) : (androidUrl || iosUrl);
+        return resolved || htmlObj.download_url || '';
+    };
+    window.super_get_url = window.pTS_get_url;
+
+    window.pTS_open = function(url?: string) {
+        const targetUrl = window.pTS_get_url(url);
+        window.pTS_log('Opening CTA URL: ' + targetUrl);
         if (targetUrl) {
-            window.open(targetUrl);
+            try {
+                window.open(targetUrl, '_blank');
+            } catch (_) {
+                window.location.href = targetUrl;
+            }
         }
     };
+    window.super_open = window.pTS_open;
 
-    window.super_check_channel = function(c: any) {
+    window.pTS_check_channel = function(c: any) {
         if (!c) {
-            window.super_log('Channel SDK check returned false (running in preview mode)');
+            window.pTS_log('Channel SDK check returned false (running in preview mode)');
             return false;
         }
         return true;
     };
+    window.super_check_channel = window.pTS_check_channel;
 
-    window.super_reg_search = function(regex: RegExp) {
+    window.pTS_reg_search = function(regex: RegExp) {
         if (!window.__res) return '';
         for (const d in window.__res) {
             if (regex.test(d)) return d;
         }
         return '';
     };
+    window.super_reg_search = window.pTS_reg_search;
 
-    window.super_eval = function(path: string) {
+    window.pTS_eval = function(path: string) {
         const vf = getVirtualFile(path);
         if (vf) {
             (0, eval)(vf.text || new TextDecoder().decode(vf.data));
         }
     };
+    window.super_eval = window.pTS_eval;
 
-    window.super_html = window.super_html || {
+    const defaultHtmlHandlers = {
         download: function(url?: string) {
-            window.super_open(url);
+            window.pTS_open(url);
         },
         game_ready: function() {
-            window.super_boot_engine();
+            window.pTS_boot_engine();
         },
         game_end: function() {},
         is_audio: function() { return true; },
         is_hide_download: function() { return false; }
     };
+
+    let activeHtml = Object.assign({}, defaultHtmlHandlers, (window as any).pTS_html || (window as any).super_html || {});
+    try {
+        Object.defineProperty(window, 'pTS_html', {
+            get() { return activeHtml; },
+            set(v) { activeHtml = Object.assign({}, defaultHtmlHandlers, activeHtml, v || {}); },
+            configurable: true,
+            enumerable: true
+        });
+        Object.defineProperty(window, 'super_html', {
+            get() { return activeHtml; },
+            set(v) { activeHtml = Object.assign({}, defaultHtmlHandlers, activeHtml, v || {}); },
+            configurable: true,
+            enumerable: true
+        });
+    } catch (_) {
+        (window as any).pTS_html = activeHtml;
+        (window as any).super_html = activeHtml;
+    }
 
     window.__res = window.__res || {};
 
@@ -247,12 +303,12 @@ export async function initRuntime(): Promise<void> {
     }
 
     if (!payload) {
-        console.error('[pts-super-html] Missing playable payload.');
+        console.error('[pTS-super-html] Missing playable payload.');
         return;
     }
 
     const compression = meta.compression || 'zip-fast';
-    window.super_log('Unpacking payload with compression:', compression, 'encoding:', meta.encoding);
+    window.pTS_log('Unpacking payload with compression:', compression, 'encoding:', meta.encoding);
 
     let payloadBytes: Uint8Array;
     if (meta.encoding === 'base122') {
@@ -279,7 +335,7 @@ export async function initRuntime(): Promise<void> {
 
     if (compression === 'solid-deflate') {
         if (!flateObj) {
-            throw new Error('[pts-super-html] fflate runtime is required for solid-deflate.');
+            throw new Error('[pTS-super-html] fflate runtime is required for solid-deflate.');
         }
         const raw = flateObj.inflateSync(payloadBytes);
         const view = new DataView(raw.buffer, raw.byteOffset, 4);
@@ -294,7 +350,7 @@ export async function initRuntime(): Promise<void> {
         }
     } else if (compression === 'zip-fast') {
         if (!flateObj) {
-            throw new Error('[pts-super-html] fflate runtime is required for zip-fast.');
+            throw new Error('[pTS-super-html] fflate runtime is required for zip-fast.');
         }
         const unzipped = flateObj.unzipSync(payloadBytes);
         for (const relPath in unzipped) {
@@ -319,23 +375,23 @@ export async function initRuntime(): Promise<void> {
                 registerFile(relPath, unzipped[relPath]);
             }
         } else {
-            throw new Error('[pts-super-html] No ZIP decompressor available.');
+            throw new Error('[pTS-super-html] No ZIP decompressor available.');
         }
     }
 
-    window.super_log('Extracted', Object.keys(window.__res).length, 'virtual files.');
+    window.pTS_log('Extracted', Object.keys(window.__res).length, 'virtual files.');
 
     // Execute polyfills bundle
     const polyfills = getVirtualFile('src/polyfills.bundle.js') || getVirtualFile('polyfills.bundle.js');
     if (polyfills) {
-        window.super_log('Evaluating polyfills.bundle.js');
+        window.pTS_log('Evaluating polyfills.bundle.js');
         (0, eval)(polyfills.text || textDecoder.decode(polyfills.data));
     }
 
     // Execute system.bundle.js
     const system = getVirtualFile('src/system.bundle.js') || getVirtualFile('system.bundle.js');
     if (system) {
-        window.super_log('Evaluating system.bundle.js');
+        window.pTS_log('Evaluating system.bundle.js');
         (0, eval)(system.text || textDecoder.decode(system.data));
     }
 
@@ -390,8 +446,8 @@ export async function initRuntime(): Promise<void> {
     }
 
     // Define engine boot function
-    window.super_boot_engine = function() {
-        window.super_log('Booting Cocos Creator engine...');
+    window.pTS_boot_engine = function() {
+        window.pTS_log('Booting Cocos Creator engine...');
         hookCocosDownloader();
         hookAudio();
 
@@ -406,22 +462,24 @@ export async function initRuntime(): Promise<void> {
 
         if (window.System && window.System.import) {
             window.System.import('./' + entry).then(() => {
-                window.super_log('Cocos Creator engine initialized.');
+                window.pTS_log('Cocos Creator engine initialized.');
                 hookCocosDownloader();
                 hookAudio();
             }).catch((err: any) => {
-                console.error('[pts-super-html] Engine boot failed:', err);
+                console.error('[pTS-super-html] Engine boot failed:', err);
             });
         } else {
-            console.error('[pts-super-html] SystemJS not available.');
+            console.error('[pTS-super-html] SystemJS not available.');
         }
     };
+    window.super_boot_engine = window.pTS_boot_engine;
 
     // Trigger channel ready
-    if (window.super_html && typeof window.super_html.game_ready === 'function') {
-        window.super_html.game_ready();
+    const htmlHandler = (window as any).pTS_html || (window as any).super_html;
+    if (htmlHandler && typeof htmlHandler.game_ready === 'function') {
+        htmlHandler.game_ready();
     } else {
-        window.super_boot_engine();
+        window.pTS_boot_engine();
     }
 }
 
@@ -692,7 +750,7 @@ function hookCocosDownloader(): void {
                     (0, eval)(scriptText);
                     if (onComplete) onComplete(null);
                 } catch (err) {
-                    console.error('[pts-super-html] Error executing virtual script: ' + url, err);
+                    console.error('[pTS-super-html] Error executing virtual script: ' + url, err);
                     if (onComplete) onComplete(err);
                 }
                 return;
@@ -784,9 +842,17 @@ function hookAudio(): void {
     if (proto.__pts_hooked) return;
     proto.__pts_hooked = true;
 
+    function isAudioEnabled(): boolean {
+        const html = (window as any).pTS_html || (window as any).super_html;
+        if (html && typeof html.is_audio === 'function') {
+            return html.is_audio();
+        }
+        return true;
+    }
+
     const origPlay = proto.play;
     proto.play = function() {
-        if (window.super_html && typeof window.super_html.is_audio === 'function' && !window.super_html.is_audio()) {
+        if (!isAudioEnabled()) {
             return;
         }
         return origPlay.apply(this, arguments as any);
@@ -795,7 +861,7 @@ function hookAudio(): void {
     const origPlayOneShot = proto.playOneShot;
     if (origPlayOneShot) {
         proto.playOneShot = function() {
-            if (window.super_html && typeof window.super_html.is_audio === 'function' && !window.super_html.is_audio()) {
+            if (!isAudioEnabled()) {
                 return;
             }
             return origPlayOneShot.apply(this, arguments as any);

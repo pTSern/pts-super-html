@@ -19,8 +19,15 @@ export interface PluginSettings {
     isMinCss: boolean;
     isMinJs: boolean;
     isCompressImages: boolean;
+    isDownsampleAudio: boolean;
+    isSubsetFonts: boolean;
+    isOptimizeMesh: boolean;
+    meshQuantizationBits?: number;
+    isAutoBuildOnCocosBuild?: boolean;
     isCustomName: boolean;
     customName: string;
+    iosUrl: string;
+    androidUrl: string;
 }
 
 export interface PackOptions {
@@ -32,7 +39,13 @@ export interface PackOptions {
     isMinCss?: boolean;
     isMinJs?: boolean;
     isCompressImages?: boolean;
+    isDownsampleAudio?: boolean;
+    isSubsetFonts?: boolean;
+    isOptimizeMesh?: boolean;
+    meshQuantizationBits?: number;
     customName?: string;
+    iosUrl?: string;
+    androidUrl?: string;
     onProgress?: (progress: number, message: string) => void;
 }
 
@@ -51,5 +64,8 @@ export interface PackResult {
     outputs: PackResultOutput[];
     durationMs: number;
     imageSavingsBytes?: number;
+    audioSavingsBytes?: number;
+    fontSavingsBytes?: number;
+    meshSavingsBytes?: number;
     error?: string;
 }

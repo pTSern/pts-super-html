@@ -1,10 +1,18 @@
 import * as fs from 'fs';
 import * as path from 'path';
 
+const isElectron = typeof process !== 'undefined' && Boolean(
+    (process.versions && (process.versions as any).electron) ||
+    (process as any).type === 'renderer' ||
+    (process as any).type === 'browser'
+);
+
 let sharp: any = null;
-try {
-    sharp = require('sharp');
-} catch (_) {}
+if (!isElectron) {
+    try {
+        sharp = require('sharp');
+    } catch (_) {}
+}
 
 let UPNG: any = null;
 try {

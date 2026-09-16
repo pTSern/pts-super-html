@@ -23,24 +23,24 @@ function buildRuntime() {
     const bootstrapContent = fs.readFileSync(bootstrapPath, 'utf-8');
 
     const runtimeWrapper = `
-var PTS_RUNTIME = (function() {
+var pTS_RUNTIME = (function() {
     var exports = {};
 ${bootstrapContent}
     return exports;
 })();
 
 if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', function() { PTS_RUNTIME.initRuntime(); });
+    document.addEventListener('DOMContentLoaded', function() { pTS_RUNTIME.initRuntime(); });
 } else {
-    PTS_RUNTIME.initRuntime();
+    pTS_RUNTIME.initRuntime();
 }
 `;
 
     // 1. fflate loader (fast ZIP & solid-deflate)
-    const loaderFflate = `/* PTS Super HTML Next Runtime Loader (fflate) */\n(function() {\n${fflateContent}\n})();\n${runtimeWrapper}`;
+    const loaderFflate = `/* pTS Super HTML Runtime Loader (fflate) */\n(function() {\n${fflateContent}\n})();\n${runtimeWrapper}`;
 
     // 2. JSZip loader (classic PKZIP)
-    const loaderJszip = `/* PTS Super HTML Next Runtime Loader (JSZip) */\n(function() {\n${jszipContent}\n})();\n${runtimeWrapper}`;
+    const loaderJszip = `/* pTS Super HTML Runtime Loader (JSZip) */\n(function() {\n${jszipContent}\n})();\n${runtimeWrapper}`;
 
     if (!fs.existsSync(outDir)) {
         fs.mkdirSync(outDir, { recursive: true });

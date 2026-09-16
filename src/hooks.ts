@@ -1,5 +1,6 @@
+import * as fs from 'fs';
+import * as path from 'path';
 import { loadSettings } from './core/settings';
-import { packPlayable } from './core/pack';
 
 declare const Editor: any;
 
@@ -11,33 +12,58 @@ export async function onAfterBuild(options: any, result: any) {
     const projectPath = (typeof Editor !== 'undefined' && Editor.Project && Editor.Project.path) ? Editor.Project.path : process.cwd();
     const settings = loadSettings(projectPath);
 
-    const inputDir = result.dest || settings.inputDir;
-    if (!inputDir) {
-        console.warn('[pts-super-html-next] onAfterBuild: Missing build output directory.');
+    // Disabled by default to prevent blocking Cocos Creator builder process and crashes
+    if (!settings.isAutoBuildOnCocosBuild) {
         return;
     }
 
-    console.log(`[pts-super-html-next] onAfterBuild triggered. Packing ${inputDir} [Encoding: ${settings.encoding}]...`);
+    const inputDir = result.dest || settings.inputDir;
+    if (!inputDir) {
+        console.warn('[pTS-super-html] onAfterBuild: Missing build output directory.');
+        return;
+    }
+
+    console.log(`[pTS-super-html] onAfterBuild auto-pack triggered for: ${inputDir}`);
 
     try {
-        const packRes = await packPlayable({
+        const { spawn } = require('child_process');
+        const cliScript = path.join(__dirname, 'tools', 'pack-cli.js');
+        if (!fs.existsSync(cliScript)) {
+            console.warn('[pTS-super-html] onAfterBuild: pack-cli.js not found at', cliScript);
+            return;
+        }
+
+        const packOptions = {
             inputDir,
             outDir: settings.outDir,
+            compression: settings.compression,
             encoding: settings.encoding,
             channels: settings.channels,
             isMinCss: settings.isMinCss,
             isMinJs: settings.isMinJs,
-            onProgress: (pct, msg) => {
-                console.log(`[pts-super-html-next] [${pct}%] ${msg}`);
-            }
-        });
+            isCompressImages: settings.isCompressImages,
+            isDownsampleAudio: settings.isDownsampleAudio,
+            isSubsetFonts: settings.isSubsetFonts,
+            isOptimizeMesh: settings.isOptimizeMesh,
+            meshQuantizationBits: settings.meshQuantizationBits || 10,
+            iosUrl: settings.iosUrl,
+            androidUrl: settings.androidUrl,
+            customName: settings.isCustomName ? settings.customName : undefined
+        };
 
-        if (packRes.success) {
-            console.log(`[pts-super-html-next] Playable ads built successfully in ${(packRes.durationMs / 1000).toFixed(2)}s (${packRes.outputs.length} outputs).`);
-        } else {
-            console.error('[pts-super-html-next] Playable ads build failed:', packRes.error);
-        }
+        const configBase64 = Buffer.from(JSON.stringify(packOptions)).toString('base64');
+
+        // Spawn detached process so Cocos builder worker process completes instantly
+        const child = spawn('node', [cliScript, '--config', configBase64], {
+            cwd: path.resolve(__dirname, '..'),
+            detached: true,
+            stdio: 'ignore',
+            windowsHide: true
+        });
+        child.unref();
+
+        console.log(`[pTS-super-html] Auto-pack launched in detached background worker (PID ${child.pid}). Cocos build finishes cleanly.`);
     } catch (err) {
-        console.error('[pts-super-html-next] Error during onAfterBuild hook:', err);
+        console.error('[pTS-super-html] Error launching auto-pack worker in onAfterBuild:', err);
     }
 }

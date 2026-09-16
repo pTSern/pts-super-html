@@ -7,6 +7,9 @@ import { CompressionMethod, Encoding, PackOptions, PackResult, PackResultOutput 
 import { ALL_CHANNELS, getChannelInfo, getChannelSnippet } from './channels';
 import { encodeBase122, escapeBase122ForHtml } from '../codecs/base122';
 import { compressImagesInDirectory } from '../tools/image-compressor';
+import { downsampleAudioInDirectory } from '../tools/audio-compressor';
+import { subsetFontsInDirectory } from '../tools/font-subsetter';
+import { optimizeMeshesInDirectory } from '../tools/mesh-optimizer';
 
 export function extractTitle(html: string): string {
     const match = html.match(/<title>([^<]*)<\/title>/i);
@@ -92,11 +95,48 @@ export async function packPlayable(options: PackOptions): Promise<PackResult> {
         report(12, 'Compressing images in build folder (TinyPNG algorithm)...');
         const imgSummary = await compressImagesInDirectory(inputDir, (completed, total, filename, saved, pct) => {
             if (saved > 0) {
-                report(14, `Optimizing image [${completed}/${total}]: ${filename} (-${pct.toFixed(1)}%)`);
+                report(13, `Optimizing image [${completed}/${total}]: ${filename} (-${pct.toFixed(1)}%)`);
             }
         });
         imageSavingsBytes = imgSummary.savedBytes;
-        report(18, `Image compression finished: ${imgSummary.optimizedCount}/${imgSummary.totalImages} optimized, saved ${(imgSummary.savedBytes / 1024).toFixed(1)} KB (-${imgSummary.savedPercent.toFixed(1)}%)`);
+        report(14, `Image compression finished: ${imgSummary.optimizedCount}/${imgSummary.totalImages} optimized, saved ${(imgSummary.savedBytes / 1024).toFixed(1)} KB (-${imgSummary.savedPercent.toFixed(1)}%)`);
+    }
+
+    let audioSavingsBytes = 0;
+    if (options.isDownsampleAudio) {
+        report(15, 'Downsampling audio (48 kbps Mono MP3)...');
+        const audioSummary = await downsampleAudioInDirectory(inputDir, 48, (completed, total, filename, saved, pct) => {
+            if (saved > 0) {
+                report(16, `Downsampling audio [${completed}/${total}]: ${filename} (-${pct.toFixed(1)}%)`);
+            }
+        });
+        audioSavingsBytes = audioSummary.savedBytes;
+        report(17, `Audio downsampling finished: ${audioSummary.optimizedCount}/${audioSummary.totalAudio} optimized, saved ${(audioSummary.savedBytes / 1024).toFixed(1)} KB (-${audioSummary.savedPercent.toFixed(1)}%)`);
+    }
+
+    let fontSavingsBytes = 0;
+    if (options.isSubsetFonts) {
+        report(18, 'Subsetting TTF/OTF fonts (used glyphs only)...');
+        const fontSummary = await subsetFontsInDirectory(inputDir, (completed, total, filename, saved, pct) => {
+            if (saved > 0) {
+                report(18, `Subsetting font [${completed}/${total}]: ${filename} (-${pct.toFixed(1)}%)`);
+            }
+        });
+        fontSavingsBytes = fontSummary.savedBytes;
+        report(19, `Font subsetting finished: ${fontSummary.optimizedCount}/${fontSummary.totalFonts} optimized, saved ${(fontSummary.savedBytes / 1024).toFixed(1)} KB (-${fontSummary.savedPercent.toFixed(1)}%)`);
+    }
+
+    let meshSavingsBytes = 0;
+    if (options.isOptimizeMesh) {
+        const quantBits = options.meshQuantizationBits !== undefined ? options.meshQuantizationBits : 10;
+        report(19, `Optimizing 3D mesh vertex buffers and animation tracks (${quantBits}-bit precision)...`);
+        const meshSummary = await optimizeMeshesInDirectory(inputDir, (completed, total, filename, savedZip, pct) => {
+            if (savedZip > 0) {
+                report(19, `Optimizing mesh buffer [${completed}/${total}]: ${filename} (+${pct.toFixed(1)}% zip ratio)`);
+            }
+        }, quantBits);
+        meshSavingsBytes = meshSummary.savedBytes;
+        report(20, `Mesh optimization finished: ${meshSummary.optimizedCount}/${meshSummary.totalBuffers} buffers optimized (${quantBits}-bit)`);
     }
 
     // Prepare style.css
@@ -245,9 +285,21 @@ export async function packPlayable(options: PackOptions): Promise<PackResult> {
             channel: channelName
         });
 
+        const urlsJson = JSON.stringify({
+            ios: options.iosUrl || '',
+            android: options.androidUrl || ''
+        });
+
         let bodyInjection = `
 <script type="text/javascript">
 window.__pts_meta = ${metaJson};
+window.pTS_urls = ${urlsJson};
+window.super_html = window.pTS_html = {
+    appstore_url: ${JSON.stringify(options.iosUrl || '')},
+    google_play_url: ${JSON.stringify(options.androidUrl || '')},
+    ios_url: ${JSON.stringify(options.iosUrl || '')},
+    android_url: ${JSON.stringify(options.androidUrl || '')}
+};
 </script>
 `;
 
@@ -321,6 +373,9 @@ ${encodedPayload}
         zipBytes: payloadBytes.length,
         outputs,
         imageSavingsBytes,
+        audioSavingsBytes,
+        fontSavingsBytes,
+        meshSavingsBytes,
         durationMs: Date.now() - startTime
     };
 }
