@@ -1,0 +1,1 @@
+try{navigator.getGamepads=null}catch(e){}window.super_html={download:function(e){super_log("game download "),window.FbPlayableAd?FbPlayableAd.onCTAClick():super_open(e)},game_ready:function(){super_log("game ready"),super_check_channel(window.FbPlayableAd),super_boot_engine()}};

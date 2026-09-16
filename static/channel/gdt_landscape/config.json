@@ -1,0 +1,7 @@
+{    
+    "name": "试玩",
+    "version": "1.0.0", 
+    "config": {        
+        "play_direction": 2
+    }
+}

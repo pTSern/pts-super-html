@@ -1,0 +1,1 @@
+window.super_html={download:function(e){super_log("game download "),window.openAppStore?window.openAppStore():super_open(e)},game_ready:function(){super_log("game ready"),super_check_channel(window.openAppStore),super_boot_engine()}};

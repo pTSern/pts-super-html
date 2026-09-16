@@ -1,0 +1,62 @@
+{
+  "package_version": 2,
+  "version": "1.0.0",
+  "name": "pts-super-html-next",
+  "description": "Next-generation single-file playable ads builder for Cocos Creator 3.8.8",
+  "author": "pTS",
+  "main": "./dist/main.js",
+  "contributions": {
+    "builder": "./dist/builder.js",
+    "menu": [
+      {
+        "path": "i18n:menu.extension",
+        "label": "PTS Super HTML Next",
+        "message": "open-panel"
+      }
+    ],
+    "messages": {
+      "open-panel": {
+        "methods": [
+          "openPanel"
+        ]
+      },
+      "build": {
+        "methods": [
+          "build"
+        ]
+      }
+    }
+  },
+  "panels": {
+    "default": {
+      "title": "PTS Super HTML Next",
+      "main": "dist/panel/index.js",
+      "size": {
+        "min-width": 640,
+        "min-height": 600,
+        "width": 780,
+        "height": 720
+      }
+    }
+  },
+  "editor": ">=3.4.0",
+  "scripts": {
+    "build": "tsc -p tsconfig.json && node dist/tools/build-runtime.js",
+    "pack": "node dist/tools/pack-cli.js",
+    "test": "npm run build && node dist/tests/codec.test.js && node dist/tests/pack.test.js"
+  },
+  "dependencies": {
+    "fflate": "^0.8.3",
+    "jpeg-js": "^0.4.4",
+    "jszip": "^3.10.1",
+    "sharp": "^0.35.4",
+    "upng-js": "^2.1.0"
+  },
+  "devDependencies": {
+    "@types/node": "^20.0.0",
+    "@types/upng-js": "^2.1.5",
+    "@types/ws": "^8.18.1",
+    "typescript": "^5.7.2",
+    "ws": "^8.21.3"
+  }
+}
