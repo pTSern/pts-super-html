@@ -1,1 +1,1 @@
-window.super_html={download:function(o){super_log("game download "),(o=super_get_url(o))||console.error("[super-html] not set google_play_url or appstore_url"),window.open(o||"about:black","_blank")},game_ready:function(){super_log("game ready"),super_boot_engine()}};
+window.pTS_html=window.super_html={download:function(o){pTS_log("game download "),(o=pTS_get_url(o))||console.error("[super-html] not set google_play_url or appstore_url"),window.open(o||"about:black","_blank")},game_ready:function(){pTS_log("game ready"),pTS_boot_engine()}};

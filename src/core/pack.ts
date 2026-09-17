@@ -294,7 +294,7 @@ export async function packPlayable(options: PackOptions): Promise<PackResult> {
 <script type="text/javascript">
 window.__pts_meta = ${metaJson};
 window.pTS_urls = ${urlsJson};
-window.super_html = window.pTS_html = {
+window.pTS_html = window.super_html = {
     appstore_url: ${JSON.stringify(options.iosUrl || '')},
     google_play_url: ${JSON.stringify(options.androidUrl || '')},
     ios_url: ${JSON.stringify(options.iosUrl || '')},

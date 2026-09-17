@@ -1,1 +1,1 @@
-window.super_html={download:function(e){super_log("game download "),window.mraid?(super_log("url "+e),e?mraid.open(e):mraid.open()):super_open(e)},game_ready:function(){super_log("game ready"),super_check_channel(window.mraid),super_boot_engine()}};
+window.pTS_html=window.super_html={download:function(e){pTS_log("game download "),window.mraid?(pTS_log("url "+e),e?mraid.open(e):mraid.open()):pTS_open(e)},game_ready:function(){pTS_log("game ready"),pTS_check_channel(window.mraid),pTS_boot_engine()}};

@@ -4,14 +4,10 @@ function gameStart() {
     window.__mintegral_started = true;
     if (typeof window.pTS_log === 'function') {
         window.pTS_log('[Mintegral] gameStart called');
-    } else if (typeof window.super_log === 'function') {
-        window.super_log('[Mintegral] gameStart called');
     }
 
     if (typeof window.pTS_boot_engine === 'function') {
         window.pTS_boot_engine();
-    } else if (typeof window.super_boot_engine === 'function') {
-        window.super_boot_engine();
     }
 
     try {
@@ -28,8 +24,6 @@ window.gameStart = gameStart;
 function gameClose() {
     if (typeof window.pTS_log === 'function') {
         window.pTS_log('[Mintegral] gameClose called');
-    } else if (typeof window.super_log === 'function') {
-        window.super_log('[Mintegral] gameClose called');
     }
 
     try {
@@ -47,23 +41,17 @@ var mintegralAdapter = {
     download: function(url) {
         if (typeof window.pTS_log === 'function') {
             window.pTS_log('[Mintegral] download called');
-        } else if (typeof window.super_log === 'function') {
-            window.super_log('[Mintegral] download called');
         }
 
         if (typeof window.install === 'function') {
             window.install();
         } else if (typeof window.pTS_open === 'function') {
             window.pTS_open(url);
-        } else if (typeof window.super_open === 'function') {
-            window.super_open(url);
         }
     },
     game_ready: function() {
         if (typeof window.pTS_log === 'function') {
             window.pTS_log('[Mintegral] game_ready called');
-        } else if (typeof window.super_log === 'function') {
-            window.super_log('[Mintegral] game_ready called');
         }
 
         if (typeof window.gameReady === 'function') {
@@ -82,8 +70,6 @@ var mintegralAdapter = {
     game_end: function() {
         if (typeof window.pTS_log === 'function') {
             window.pTS_log('[Mintegral] game_end called');
-        } else if (typeof window.super_log === 'function') {
-            window.super_log('[Mintegral] game_end called');
         }
 
         if (typeof window.gameEnd === 'function') {
@@ -93,8 +79,6 @@ var mintegralAdapter = {
     game_retry: function() {
         if (typeof window.pTS_log === 'function') {
             window.pTS_log('[Mintegral] game_retry called');
-        } else if (typeof window.super_log === 'function') {
-            window.super_log('[Mintegral] game_retry called');
         }
 
         if (typeof window.gameRetry === 'function') {
@@ -103,11 +87,10 @@ var mintegralAdapter = {
     }
 };
 
-window.super_html = window.super_html || {};
-window.pTS_html = window.pTS_html || window.super_html;
+window.pTS_html = window.super_html = window.pTS_html || window.super_html || {};
 for (var key in mintegralAdapter) {
     if (Object.prototype.hasOwnProperty.call(mintegralAdapter, key)) {
-        window.super_html[key] = mintegralAdapter[key];
         window.pTS_html[key] = mintegralAdapter[key];
+        window.super_html[key] = mintegralAdapter[key];
     }
 }

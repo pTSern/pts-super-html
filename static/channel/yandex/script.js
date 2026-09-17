@@ -1,1 +1,1 @@
-window.super_html={download:function(n){super_log("game download "),window.yandexHTML5BannerApi?window.yandexHTML5BannerApi.getClickURLNum(1):super_open(n)},game_ready:function(){super_log("game ready"),super_check_channel(window.yandexHTML5BannerApi),super_boot_engine()}};
+window.pTS_html=window.super_html={download:function(n){pTS_log("game download "),window.yandexHTML5BannerApi?window.yandexHTML5BannerApi.getClickURLNum(1):pTS_open(n)},game_ready:function(){pTS_log("game ready"),pTS_check_channel(window.yandexHTML5BannerApi),pTS_boot_engine()}};
