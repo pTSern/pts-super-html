@@ -1,1 +1,279 @@
-const a=['VideoPlayerImplManager','play','length','132752gYySkq','url(','114565LOGSZF','load','open','video','createVideoPlayer','getRes','call','error','19gxuFlC','import','is_audio','buffer','text','atob','assetManager','_createLocalJSElement','response','overrideMimeType','responseType','register','then','__res','673240KPduGY','[super-html]\x20Unable\x20to\x20run,\x20please\x20run\x20on\x20{','addEventListener','internal','slice','fetch\x20','replace','indexOf','setRequestHeader','by\x20cocos\x20super-html\x20\x0achannel\x20:\x20','xxxx__','pTS_html_channel','send','downloader','pTS_boot_engine','loaded','1VlLZYY','url','onload','526845FotGeA','type\x20error','pTS_reg_search','_my','443558roUtyO','getImpl','source','match','playOneShot','appendChild','charCodeAt','load\x20fail','166333lzlwKX','src','removeEventListener','oasjidx','createObjectURL','230240rhHiYP','AudioSourceComponent','4MarjwL','fetch','createElement','log','catch','json','pTS_check_channel','prototype'];function b(c,d){c=c-0x19e;let e=a[c];return e;}const A=b;(function(c,d){const z=b;while(!![]){try{const e=parseInt(z(0x1bb))+-parseInt(z(0x1b3))+-parseInt(z(0x1e5))+-parseInt(z(0x1cd))*parseInt(z(0x1c2))+-parseInt(z(0x1c0))*-parseInt(z(0x1ac))+-parseInt(z(0x1af))+parseInt(z(0x1cf))*parseInt(z(0x1d7));if(e===d)break;else c['push'](c['shift']());}catch(f){c['push'](c['shift']());}}}(a,0x61541),window[A(0x1b1)]=function(c){const B=A;for(let d in window[B(0x1e4)]){if(c['test'](d))return d;}return'';},window[A(0x1c8)]=function(c){const C=A;if(!c)return console[C(0x1d6)](C(0x1e6)+window['pTS_html_channel']+'}'),![];return!![];},console[A(0x1c5)](A(0x1a5)+window[A(0x1a7)]+'\x0atool\x20:\x20https://store.cocos.com/app/detail/3657\x0aplayable\x20demo\x20:\x20https://github.com/magician-f/cocos-playable-demo\x0awechat\x20:\x20magician-f8'),window[A(0x1aa)]=function(){const E=A;function c(j){const D=b,l=window[D(0x1e4)];if(l[j])return j;for(var m in l){const n=j[D(0x1a3)](m);if(n!=-0x1&&n+m['length']==j[D(0x1cc)])return m;}return j;}let d={};window[E(0x1d4)]=function(j){const F=E;j=c(j);if(d[j])return d[j];var k=window[F(0x1e4)][j],l=window[F(0x1be)]||0x0;return l&&k&&k[F(0x1a3)]&&k[F(0x1a3)]('data:')==0x0&&k['length']>l&&(k=k[F(0x1a0)](0x0,l)+k['slice'](l+0x1)),d[j]=k,delete window[F(0x1e4)][j],k;};function e(){const G=E;window[G(0x1de)]=function j(){const H=G;let k=document[H(0x1c4)](H(0x1b2));return k[H(0x1bc)]='',k['addEventListener']=function(l,m){const I=H;this[l]=m,l==I(0x1d0)&&setTimeout(()=>{const J=I;pTS_eval(c(k[J(0x1bc)])),window['cc']&&f(),m();});},k;};}function f(){const K=E;if(window[K(0x1a6)])return;window[K(0x1a6)]=!![];function j(m,n){const L=K;let o=m,p=o['split'](','),q=p[0x0][L(0x1b6)](/:(.*?);/),r=(q&&q[L(0x1cc)]>0x1?q[0x1]:type)||type,s=window[L(0x1dc)](p[0x1]),t=new ArrayBuffer(s['length']),u=new Uint8Array(t);for(let v=0x0;v<s[L(0x1cc)];v++){u[v]=s[L(0x1b9)](v);}return new Blob([t],{'type':r});}if(cc['internal'][K(0x1ca)]){function m(o,p,q){const M=K;var r=document['createElement'](M(0x1d2)),s=document['createElement'](M(0x1b5));r[M(0x1b8)](s),q(null,r);}cc[K(0x1dd)][K(0x1a9)]['register']({'.mp4':m,'.avi':m,'.mov':m,'.mpg':m,'.mpeg':m,'.rm':m,'.rmvb':m});const n=cc[K(0x19f)][K(0x1ca)][K(0x1b4)];cc['internal'][K(0x1ca)][K(0x1b4)]=function(o){const N=K,p=n['call'](this,o),q=p['createVideoPlayer'];return p[N(0x1d3)]=function(r){const O=N;var s=getRes(r);if(s)return s=j(s),s=URL[O(0x1bf)](s),q[O(0x1d5)](this,s);return q['call'](this,r);},p;};}try{if(window['pTS_html']&&pTS_html[K(0x1d9)]&&cc[K(0x1c1)]){const o=cc[K(0x1c1)][K(0x1c9)]['play'];cc[K(0x1c1)]['prototype'][K(0x1cb)]=function(){const P=K;if(!pTS_html[P(0x1d9)]()){window['pTS_music_ins']=[this];return;}o[P(0x1d5)](this);};const p=cc[K(0x1c1)][K(0x1c9)][K(0x1b7)];cc[K(0x1c1)][K(0x1c9)][K(0x1b7)]=function(q,r){const Q=K;if(!pTS_html['is_audio']())return;p[Q(0x1d5)](this,q,r);};}}catch(q){console['log'](q);}function k(){const T=K;function r(s,t,u){const R=b,v='[./\x20\x22\x27]*';var w=s[R(0x1a2)](new RegExp(v,'g'),''),x=getRes(s);if(x==null){u();return;};var y=new FontFace(w,R(0x1ce)+x+')');document['fonts']['add'](y),y[R(0x1d0)](),y[R(0x1ab)][R(0x1e3)](function(){u(null,w);},function(){const S=R;console[S(0x1d6)](S(0x1ad)+s+S(0x1ba)),u(null,w);});};cc[T(0x1dd)][T(0x1a9)]['register']({'.font':r,'.eot':r,'.ttf':r,'.woff':r,'.svg':r,'.ttc':r});}k();function l(){const X=K;function r(s,t,u){const W=b;var v=new Image();function w(){const U=b;v[U(0x1bd)](U(0x1d0),w),v['removeEventListener'](U(0x1d6),x),u&&u(null,v);}function x(){const V=b;v[V(0x1bd)](V(0x1d0),w),v[V(0x1bd)](V(0x1d6),x),u&&u(new Error(getError(0x1342,s)));}return v[W(0x19e)](W(0x1d0),w),v[W(0x19e)]('error',x),v[W(0x1bc)]=getRes(s)||s,v;}cc[X(0x1dd)][X(0x1a9)][X(0x1e2)]({'.png':r,'.jpg':r,'.bmp':r,'.jpeg':r,'.gif':r,'.webp':r,'.ico':r,'.tiff':r,'.webp':r,'.image':r});}l();}e();function g(j){const Y=E;var k=atob(j['substring'](j[Y(0x1a3)](',')+0x1)),l=k[Y(0x1cc)],m=new Uint8Array(l);while(l--){m[l]=k[Y(0x1b9)](l);};return m[Y(0x1da)];}function h(){const Z=E;let j=window[Z(0x1c3)];j&&(window[Z(0x1c3)]=async function(k,...l){const a0=Z;pTS_log(a0(0x1a1)+k);const m=getRes(k);if(!m)return j(k,...l);return new Promise((n,o)=>{let q=g(m);n({'arrayBuffer':async()=>{return new Promise((r,s)=>{r(q);});}});});}),window['_XMLLocalRequest']=function k(){const a1=Z;this[a1(0x1d1)]=function(l,m,n,o){const a2=a1;this[a2(0x1ad)]=m,this['status']=0xc8;},this[a1(0x1e0)]=function(){},this[a1(0x1a4)]=function(){},this[a1(0x1a8)]=function(){const a3=a1,l=getRes(this['url']);let m=null;switch(this['responseType']){case a3(0x1c7):m=JSON['parse'](l);break;case a3(0x1db):m=l;break;case'arraybuffer':m=g(l);break;default:console['err'](a3(0x1b0),url,this[a3(0x1e1)]);break;}this[a3(0x1df)]=m,setTimeout(()=>{const a4=a3;this[a4(0x1ae)]();});};};}h();const i=pTS_reg_search(/^index[a-zA-Z0-9.]*.js$/);System[E(0x1d8)]('./'+i)[E(0x1c6)](function(j){const a5=E;console[a5(0x1d6)](j);});});
+/**
+ * pTS Super HTML - Cocos Creator 3.4.x Loader (Legacy)
+ * Note: Modern PLACore builds on Cocos Creator 3.8.8 use src/runtime/bootstrap.ts instead.
+ */
+
+window.pTS_reg_search = function(regex) {
+    for (var key in window.__res) {
+        if (regex.test(key)) return key;
+    }
+    return '';
+};
+
+window.pTS_check_channel = function(channelObj) {
+    if (!channelObj) {
+        console.error('[pTS-super-html] Unable to run, please run on {' + window.pTS_html_channel + '}');
+        return false;
+    }
+    return true;
+};
+
+console.log(
+    'by pTSern\nchannel : ' + window.pTS_html_channel +
+    '\ngithub: https://github.com/pTSern/pts-super-html'
+);
+
+window.pTS_boot_engine = function() {
+    function resolveKey(target) {
+        var res = window.__res;
+        if (res[target]) return target;
+        for (var key in res) {
+            var idx = target.indexOf(key);
+            if (idx !== -1 && idx + key.length === target.length) return key;
+        }
+        return target;
+    }
+
+    var resCache = {};
+    window.getRes = function(key) {
+        key = resolveKey(key);
+        if (resCache[key]) return resCache[key];
+
+        var data = window.__res[key];
+        var offset = window.oasjidx || 0;
+        if (offset && data && data.indexOf && data.indexOf('data:') === 0 && data.length > offset) {
+            data = data.slice(0, offset) + data.slice(offset + 1);
+        }
+
+        resCache[key] = data;
+        delete window.__res[key];
+        return data;
+    };
+
+    function hookScriptElement() {
+        window._createLocalJSElement = function() {
+            var scriptEl = document.createElement('_my');
+            scriptEl.src = '';
+            scriptEl.addEventListener = function(event, callback) {
+                this[event] = callback;
+                if (event === 'load') {
+                    setTimeout(function() {
+                        pTS_eval(resolveKey(scriptEl.src));
+                        if (window.cc) hookCocosComponents();
+                        callback();
+                    });
+                }
+            };
+            return scriptEl;
+        };
+    }
+
+    function hookCocosComponents() {
+        if (window.xxxx__) return;
+        window.xxxx__ = true;
+
+        function dataUriToBlob(dataUri) {
+            var parts = dataUri.split(',');
+            var match = parts[0].match(/:(.*?);/);
+            var mime = (match && match.length > 1 ? match[1] : 'application/octet-stream');
+            var binary = window.atob(parts[1]);
+            var buffer = new ArrayBuffer(binary.length);
+            var view = new Uint8Array(buffer);
+            for (var i = 0; i < binary.length; i++) {
+                view[i] = binary.charCodeAt(i);
+            }
+            return new Blob([buffer], { type: mime });
+        }
+
+        // 1. Hook VideoPlayer
+        if (cc.internal && cc.internal.VideoPlayerImplManager) {
+            function videoHandler(url, options, onComplete) {
+                var videoEl = document.createElement('video');
+                var sourceEl = document.createElement('source');
+                videoEl.appendChild(sourceEl);
+                onComplete(null, videoEl);
+            }
+
+            cc.assetManager.downloader.register({
+                '.mp4': videoHandler,
+                '.avi': videoHandler,
+                '.mov': videoHandler,
+                '.mpg': videoHandler,
+                '.mpeg': videoHandler,
+                '.rm': videoHandler,
+                '.rmvb': videoHandler
+            });
+
+            var origGetImpl = cc.internal.VideoPlayerImplManager.getImpl;
+            cc.internal.VideoPlayerImplManager.getImpl = function(options) {
+                var impl = origGetImpl.call(this, options);
+                var origCreateVideo = impl.createVideoPlayer;
+                impl.createVideoPlayer = function(url) {
+                    var res = getRes(url);
+                    if (res) {
+                        res = dataUriToBlob(res);
+                        var blobUrl = URL.createObjectURL(res);
+                        return origCreateVideo.call(this, blobUrl);
+                    }
+                    return origCreateVideo.call(this, url);
+                };
+                return impl;
+            };
+        }
+
+        // 2. Hook AudioSourceComponent
+        try {
+            if (window.pTS_html && pTS_html.is_audio && cc.AudioSourceComponent) {
+                var origPlay = cc.AudioSourceComponent.prototype.play;
+                cc.AudioSourceComponent.prototype.play = function() {
+                    if (!pTS_html.is_audio()) {
+                        window.pTS_music_ins = [this];
+                        return;
+                    }
+                    origPlay.call(this);
+                };
+
+                var origPlayOneShot = cc.AudioSourceComponent.prototype.playOneShot;
+                cc.AudioSourceComponent.prototype.playOneShot = function(clip, volume) {
+                    if (!pTS_html.is_audio()) return;
+                    origPlayOneShot.call(this, clip, volume);
+                };
+            }
+        } catch (err) {
+            console.log(err);
+        }
+
+        // 3. Hook Font Loading
+        function hookFonts() {
+            function fontHandler(url, options, onComplete) {
+                var family = url.replace(/[./\s"']*/g, '');
+                var res = getRes(url);
+                if (res == null) {
+                    onComplete();
+                    return;
+                }
+                var fontFace = new FontFace(family, 'url(' + res + ')');
+                document.fonts.add(fontFace);
+                fontFace.load();
+                fontFace.loaded.then(
+                    function() { onComplete(null, family); },
+                    function() {
+                        console.error('url ' + url + ' load fail');
+                        onComplete(null, family);
+                    }
+                );
+            }
+
+            cc.assetManager.downloader.register({
+                '.font': fontHandler,
+                '.eot': fontHandler,
+                '.ttf': fontHandler,
+                '.woff': fontHandler,
+                '.svg': fontHandler,
+                '.ttc': fontHandler
+            });
+        }
+        hookFonts();
+
+        // 4. Hook Image Loading
+        function hookImages() {
+            function imageHandler(url, options, onComplete) {
+                var img = new Image();
+                function onLoad() {
+                    img.removeEventListener('load', onLoad);
+                    img.removeEventListener('error', onError);
+                    onComplete && onComplete(null, img);
+                }
+                function onError() {
+                    img.removeEventListener('load', onLoad);
+                    img.removeEventListener('error', onError);
+                    onComplete && onComplete(new Error('Load image (' + url + ') failed'));
+                }
+                img.addEventListener('load', onLoad);
+                img.addEventListener('error', onError);
+                img.src = getRes(url) || url;
+                return img;
+            }
+
+            cc.assetManager.downloader.register({
+                '.png': imageHandler,
+                '.jpg': imageHandler,
+                '.bmp': imageHandler,
+                '.jpeg': imageHandler,
+                '.gif': imageHandler,
+                '.webp': imageHandler,
+                '.ico': imageHandler,
+                '.tiff': imageHandler,
+                '.image': imageHandler
+            });
+        }
+        hookImages();
+    }
+
+    hookScriptElement();
+
+    function base64ToArrayBuffer(base64Str) {
+        var binary = atob(base64Str.substring(base64Str.indexOf(',') + 1));
+        var len = binary.length;
+        var bytes = new Uint8Array(len);
+        for (var i = 0; i < len; i++) {
+            bytes[i] = binary.charCodeAt(i);
+        }
+        return bytes.buffer;
+    }
+
+    function hookNetwork() {
+        var origFetch = window.fetch;
+        if (origFetch) {
+            window.fetch = async function(url, ...args) {
+                pTS_log('fetch ' + url);
+                var res = getRes(url);
+                if (!res) return origFetch(url, ...args);
+                return new Promise(function(resolve) {
+                    var buf = base64ToArrayBuffer(res);
+                    resolve({
+                        arrayBuffer: async function() { return buf; }
+                    });
+                });
+            };
+        }
+
+        window._XMLLocalRequest = function() {
+            this.open = function(method, url) {
+                this.url = url;
+                this.status = 200;
+            };
+            this.overrideMimeType = function() {};
+            this.setRequestHeader = function() {};
+            this.send = function() {
+                var res = getRes(this.url);
+                var responseData = null;
+                switch (this.responseType) {
+                    case 'json':
+                        responseData = JSON.parse(res);
+                        break;
+                    case 'text':
+                        responseData = res;
+                        break;
+                    case 'arraybuffer':
+                        responseData = base64ToArrayBuffer(res);
+                        break;
+                    default:
+                        console.error('type error', this.url, this.responseType);
+                        break;
+                }
+                this.response = responseData;
+                setTimeout(() => {
+                    this.onload && this.onload();
+                });
+            };
+        };
+    }
+
+    hookNetwork();
+
+    var entryScript = pTS_reg_search(/^index[a-zA-Z0-9.]*\.js$/);
+    System.import('./' + entryScript).catch(function(err) {
+        console.error(err);
+    });
+};
