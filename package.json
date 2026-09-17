@@ -21,6 +21,12 @@
     }
   },
   "contributions": {
+    "asset-db": {
+      "mount": {
+        "path": "./assets/",
+        "readonly": true
+      }
+    },
     "builder": "./dist/builder.js",
     "menu": [
       {
