@@ -446,7 +446,18 @@ export async function initRuntime(): Promise<void> {
     }
 
     // Define engine boot function
+    let isBooted = false;
     window.pTS_boot_engine = function() {
+        if (isBooted) {
+            window.pTS_log('Cocos Creator engine already booted.');
+            try {
+                if (window.cc && window.cc.game && typeof window.cc.game.resume === 'function') {
+                    window.cc.game.resume();
+                }
+            } catch (_) {}
+            return;
+        }
+        isBooted = true;
         window.pTS_log('Booting Cocos Creator engine...');
         hookCocosDownloader();
         hookAudio();
@@ -473,6 +484,7 @@ export async function initRuntime(): Promise<void> {
         }
     };
     window.super_boot_engine = window.pTS_boot_engine;
+
 
     // Trigger channel ready
     const htmlHandler = (window as any).pTS_html || (window as any).super_html;
